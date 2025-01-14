@@ -2714,7 +2714,342 @@ ${i.stack}
 `,Object.keys(this.params).forEach(f=>{i+=`Param ${f}: ${this.params[f]}
 `}),Object.keys(this.attributes).forEach(f=>{var m;i+=`Attribute ${f}: ${(m=this.attributes.getNamedItem(f))==null?void 0:m.value}
 `}),i}get nodeName(){return"OBJECT"}get data(){return this.getAttribute("data")}set data(i){if(i){const o=document.createAttribute("data");o.value=i,this.attributes.setNamedItem(o)}else this.attributes.removeNamedItem("data")}static isInterdictable(i){var k,w,b;if(Ts(i)||i.getElementsByTagName("ruffle-object").length>0||i.getElementsByTagName("ruffle-embed").length>0)return!1;const o=(k=i.attributes.getNamedItem("data"))==null?void 0:k.value.toLowerCase(),u=((w=i.attributes.getNamedItem("type"))==null?void 0:w.value)??null,f=ip(i);let m;if(o){if(ks(o))return Ss(i,"data"),!1;m=o}else if(f.movie){if(ks(f.movie)){const _=i.querySelector("param[name='movie']");if(_){Ss(_,"value");const L=_.getAttribute("value");L&&i.setAttribute("data",L)}return!1}m=f.movie}else return!1;const h=(b=i.attributes.getNamedItem("classid"))==null?void 0:b.value.toLowerCase();return h===wb.toLowerCase()?!Array.from(i.getElementsByTagName("object")).some($a.isInterdictable)&&!Array.from(i.getElementsByTagName("embed")).some(Wa.isInterdictable):h?!1:gp(m,u)}static fromNativeObjectElement(i){const o=As("ruffle-object",$a),u=document.createElement(o);for(const f of Array.from(i.getElementsByTagName("embed")))Wa.isInterdictable(f)&&f.remove();for(const f of Array.from(i.getElementsByTagName("object")))$a.isInterdictable(f)&&f.remove();return Rp(i,u),u}get height(){return this.getAttribute("height")||""}set height(i){this.setAttribute("height",i)}get width(){return this.getAttribute("width")||""}set width(i){this.setAttribute("width",i)}get type(){return this.getAttribute("type")||""}set type(i){this.setAttribute("type",i)}}class Rs{constructor(i){if(this.__mimeTypes=[],this.__namedMimeTypes={},i)for(let o=0;o<i.length;o++)this.install(i[o])}install(i){const o=new zp(i),u=this.__mimeTypes.length;this.__mimeTypes.push(o),this.__namedMimeTypes[i.type]=o,this[o.type]=o,this[u]=o}item(i){return this.__mimeTypes[i>>>0]}namedItem(i){return this.__namedMimeTypes[i]}get length(){return this.__mimeTypes.length}[Symbol.iterator](){return this.__mimeTypes[Symbol.iterator]()}get[Symbol.toStringTag](){return"MimeTypeArray"}}class zp{constructor(i){this.__mimeType=i}get type(){return this.__mimeType.type}get description(){return this.__mimeType.description}get suffixes(){return this.__mimeType.suffixes}get enabledPlugin(){return this.__mimeType.enabledPlugin}get[Symbol.toStringTag](){return"MimeType"}}class ly extends Rs{constructor(i,o,u){super(),this.name=i,this.description=o,this.filename=u}}class rp{constructor(i){this.__plugins=[],this.__namedPlugins={};for(let o=0;o<i.length;o++)this.install(i[o])}install(i){const o=this.__plugins.length;this.__plugins.push(i),this.__namedPlugins[i.name]=i,this[i.name]=i,this[o]=i}item(i){return this.__plugins[i>>>0]}namedItem(i){return this.__namedPlugins[i]}refresh(){}[Symbol.iterator](){return this.__plugins[Symbol.iterator]()}get[Symbol.toStringTag](){return"PluginArray"}get length(){return this.__plugins.length}}const mt=new ly("Shockwave Flash","Shockwave Flash 32.0 r0","ruffle.js");mt.install({type:pp,description:"Shockwave Flash",suffixes:"spl",enabledPlugin:mt});mt.install({type:mp,description:"Shockwave Flash",suffixes:"swf",enabledPlugin:mt});mt.install({type:hp,description:"Shockwave Flash",suffixes:"swf",enabledPlugin:mt});mt.install({type:vp,description:"Shockwave Flash",suffixes:"swf",enabledPlugin:mt});function iy(s){if(navigator.plugins.namedItem("Shockwave Flash"))return;(!("install"in navigator.plugins)||!navigator.plugins.install)&&(Object.defineProperty(window,"PluginArray",{value:rp}),Object.defineProperty(navigator,"plugins",{value:new rp(navigator.plugins),writable:!1})),navigator.plugins.install(s),s.length>0&&(!("install"in navigator.mimeTypes)||!navigator.mimeTypes.install)&&(Object.defineProperty(window,"MimeTypeArray",{value:Rs}),Object.defineProperty(window,"MimeType",{value:zp}),Object.defineProperty(navigator,"mimeTypes",{value:new Rs(navigator.mimeTypes),writable:!1}));const o=navigator.mimeTypes;for(let u=0;u<s.length;u+=1)o.install(s[u])}function ry(s){let i=(li==null?void 0:li.href)??"";return!Ht&&"publicPath"in s&&s.publicPath!==null&&s.publicPath!==void 0&&(i=s.publicPath),i!==""&&!i.endsWith("/")&&(i+="/"),i}var up;const si=((up=window.RufflePlayer)==null?void 0:up.config)??{},oy=ry(si)+"ruffle.js";let os,us;function uy(){var s;return"favorFlash"in si&&si.favorFlash===!1?!1:(((s=navigator.plugins.namedItem("Shockwave Flash"))==null?void 0:s.filename)??"ruffle.js")!=="ruffle.js"}function xp(){try{os=os??document.getElementsByTagName("object"),us=us??document.getElementsByTagName("embed");for(const s of Array.from(os))if($a.isInterdictable(s)){const i=$a.fromNativeObjectElement(s);s.replaceWith(i)}for(const s of Array.from(us))if(Wa.isInterdictable(s)){const i=Wa.fromNativeEmbedElement(s);s.replaceWith(i)}}catch(s){console.error(`Serious error encountered when polyfilling native Flash elements: ${s}`)}}let ss,cs;function Ep(){ss=ss??document.getElementsByTagName("iframe"),cs=cs??document.getElementsByTagName("frame"),[ss,cs].forEach(s=>{for(const i of s){if(i.dataset.rufflePolyfilled!==void 0)continue;i.dataset.rufflePolyfilled="";const o=i.contentWindow,u=`Couldn't load Ruffle into ${i.tagName}[${i.src}]: `;try{o.document.readyState==="complete"&&op(o,u)}catch(f){Ht||console.warn(u+f)}i.addEventListener("load",()=>{op(o,u)},!1)}})}async function op(s,i){await new Promise(u=>{window.setTimeout(()=>{u()},100)});let o;try{if(o=s.document,!o)return}catch(u){Ht||console.warn(i+u);return}if(!(!Ht&&o.documentElement.dataset.ruffleOptout!==void 0)){if(Ht)s.RufflePlayer||(s.RufflePlayer={}),s.RufflePlayer.config={...si,...s.RufflePlayer.config??{}};else if(!s.RufflePlayer){const u=o.createElement("script");u.setAttribute("src",oy),u.onload=()=>{s.RufflePlayer={},s.RufflePlayer.config=si},o.head.appendChild(u)}}}function sy(){new MutationObserver(function(i){i.some(u=>Array.from(u.addedNodes).some(f=>["EMBED","OBJECT"].includes(f.nodeName)||f instanceof Element&&f.querySelector("embed, object")!==null))&&(xp(),Ep())}).observe(document,{childList:!0,subtree:!0})}function cy(){iy(mt)}function fy(){uy()||(xp(),Ep(),sy())}const ri={version:_n.versionNumber+"+"+_n.buildDate.substring(0,10),polyfill(){fy()},pluginPolyfill(){cy()},createPlayer(){const s=As("ruffle-player",Ds);return document.createElement(s)},options:{}};function dy(s,i={}){let o;window.RufflePlayer instanceof xm?o=window.RufflePlayer:(o=new xm(window.RufflePlayer),window.RufflePlayer=o),o.sources[s]=ri,ri.options=i,("polyfills"in o.config?o.config.polyfills:!0)!==!1&&ri.pluginPolyfill()}dy("local");og.createRoot(document.getElementById("root")).render(q.jsx(fs.StrictMode,{children:q.jsx(pg,{ruffleBaseConfig:{autoplay:Xa.On,unmuteOverlay:oi.Hidden,logLevel:Tr.Warn,letterbox:Ar.On,forceScale:!0,forceAlign:!0},allowSampleSwfs:!0,allowUrlLoading:!1})}));</script>
-    <link rel="stylesheet" crossorigin href="./assets/index-ZTuZXFCc.css">
+    <style>
+      :root {
+	--ruffle-light-blue: #546da3;
+	--ruffle-blue: #37528c;
+	--ruffle-dark-blue: #184778;
+	--ruffle-orange: #ffad33;
+	--ruffle-dark-orange: #966214
+}
+
+.notransition,
+.notransition *,
+.notransition:before,
+.notransition:after {
+	transition: none !important
+}
+
+body {
+	background: var(--ruffle-blue);
+	font: 14px Arial, sans-serif;
+	margin: auto;
+	color: #fff
+}
+
+.header {
+	position: relative;
+	background: var(--ruffle-dark-blue);
+	text-align: center;
+	padding: 16px 16px 6px;
+	box-shadow: 0 0 12px #0008
+}
+
+.header a {
+	display: inline-block;
+	line-height: 0
+}
+
+#version-text {
+	text-align: center;
+	font-size: smaller;
+	opacity: .6
+}
+
+.logo {
+	width: 100%;
+	transition: transform .2s
+}
+
+.logo:hover {
+	transform: scale(104%)
+}
+
+input,
+select {
+	background: var(--ruffle-dark-blue);
+	color: #fff;
+	padding: 6px;
+	border: none;
+	border-radius: 4px
+}
+
+input::placeholder {
+	opacity: .5;
+	color: #fff
+}
+
+button {
+	padding: 6px 8px;
+	border: 2px solid var(--ruffle-blue);
+	border-radius: 8px;
+	cursor: pointer;
+	text-align: center;
+	background: var(--ruffle-light-blue);
+	color: #fff;
+	text-shadow: 0 0 .1px white
+}
+
+.options {
+	display: flex;
+	flex-flow: column;
+	gap: 20px
+}
+
+.option {
+	position: relative;
+	display: flex;
+	align-items: center
+}
+
+.option input,
+.option select {
+	padding: 4px;
+	position: absolute;
+	right: 0
+}
+
+.option label {
+	display: inline-block;
+	padding-right: 60px
+}
+
+.option.checkbox input {
+	width: 40px;
+	height: 20px;
+	margin: auto;
+	cursor: pointer;
+	z-index: 1;
+	opacity: 0
+}
+
+.option.checkbox label:before,
+.option.checkbox label:after {
+	content: "";
+	position: absolute;
+	border-radius: 10px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	transition: background .2s, right .2s
+}
+
+.option.checkbox label:before {
+	height: 20px;
+	width: 40px;
+	right: 0;
+	background: gray
+}
+
+.option.checkbox label:after {
+	height: 18px;
+	width: 18px;
+	right: 21px;
+	background: silver
+}
+
+.option.checkbox input:checked+label:before {
+	background: var(--ruffle-dark-orange)
+}
+
+.option.checkbox input:checked+label:after {
+	background: var(--ruffle-orange);
+	right: 1px
+}
+
+.option.number-input input {
+	width: 60px;
+	height: 20px;
+	margin: auto
+}
+
+.hidden {
+	display: none !important
+}
+
+@font-face {
+	font-family: Lato;
+	font-style: normal;
+	font-weight: 400;
+	src: url(./S6uyw4BMUTPHjxAwXjeu-C8eBZ-j2.woff2) format("woff2");
+	unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+	font-family: Lato;
+	font-style: normal;
+	font-weight: 400;
+	src: url(./S6uyw4BMUTPHjx4wXg-BEhtfm5r.woff2) format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+}
+
+#root {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 0;
+	margin: 0;
+	font-family: Lato, sans-serif;
+	font-size: 100%;
+	display: flex;
+	flex-direction: column;
+	background: #000
+}
+
+#nav {
+	width: 100%;
+	background: var(--ruffle-blue);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	color: #fff;
+	padding: 8px 16px;
+	box-sizing: border-box
+}
+
+#nav>* {
+	display: flex;
+	gap: 20px
+}
+
+.logo {
+	height: 32px;
+	flex: 0 0 content
+}
+
+.select-container>div {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex-wrap: wrap
+}
+
+#web-url {
+	width: min(40vw, 500px)
+}
+
+#local-file {
+	display: none
+}
+
+#local-file-name,
+#sample-swfs-label,
+#local-file-static-label {
+	font-size: smaller
+}
+
+#local-file-static-label {
+	display: none
+}
+
+#toggle-info,
+#reload-swf {
+	cursor: pointer
+}
+
+#author {
+	color: var(--ruffle-orange)
+}
+
+#main {
+	position: relative;
+	flex: 1;
+	display: flex;
+	flex-direction: row
+}
+
+#author-container {
+	font-size: smaller
+}
+
+#player-container {
+	overflow-y: hidden;
+	flex-grow: 1
+}
+
+#player-container>* {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%
+}
+
+#overlay {
+	pointer-events: none;
+	border: 8px dashed var(--ruffle-orange);
+	border-radius: 30px;
+	opacity: 0;
+	transition: opacity .3s ease-in;
+	box-sizing: border-box;
+	z-index: 1
+}
+
+#overlay.drag {
+	opacity: 1;
+	transition-timing-function: ease-out
+}
+
+.info-container-shown #player {
+	width: calc(100% - 300px)
+}
+
+#overlay:not([hidden])~#player {
+	bottom: 100%
+}
+
+#info-container {
+	display: flex;
+	position: absolute;
+	inset: 0 0 0 auto;
+	width: 300px;
+	background-color: var(--ruffle-blue);
+	padding: 4px 16px;
+	flex-direction: column;
+	gap: 8px;
+	box-sizing: border-box
+}
+
+#info-container span:first-child {
+	text-shadow: 0 0 1px white
+}
+
+#info-container span:first-child:after {
+	content: ":"
+}
+
+#info-container span:last-child {
+	float: right
+}
+
+#backgroundColor {
+	width: 1em;
+	height: 1em;
+	border: 2px solid var(--ruffle-dark-blue);
+	background-color: #fff
+}
+
+@media only screen and (max-width: 1120px) {
+	#local-file-static-label {
+		display: block
+	}
+
+	.select-container {
+		flex-flow: column
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	#logo-container {
+		display: none
+	}
+}
+    </style>
   </head>
   <body>
     <div id="root"></div>
